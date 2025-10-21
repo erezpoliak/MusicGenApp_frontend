@@ -7,6 +7,7 @@ import * as Tone from "tone";
 import { useMidi } from "../hooks/useMidi";
 import { useMusicContext } from "../contex/hooks";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../config";
 
 const firstNote = MidiNumbers.fromNote("a0");
 const lastNote = MidiNumbers.fromNote("c8");
@@ -109,7 +110,7 @@ function Record() {
 
     try {
       setIsGenerating(true);
-      const response = await fetch("http://127.0.0.1:5000/generate", {
+      const response = await fetch(`${API_BASE}/generate`, {
         method: "POST",
         body: formData,
       });

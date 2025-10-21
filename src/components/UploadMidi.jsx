@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useMusicContext } from "../contex/hooks";
 import { useNavigate } from "react-router-dom";
 import { useMidi } from "../hooks/useMidi";
+import { API_BASE } from "../config";
 
 const FILENAME = "uploaded.mid";
 
@@ -23,7 +24,7 @@ function UploadMidi() {
       const formData = new FormData();
       formData.append("midi", selectedFile, FILENAME);
 
-      const response = await fetch("http://127.0.0.1:5000/generate", {
+      const response = await fetch(`${API_BASE}/generate`, {
         method: "POST",
         body: formData,
       });
