@@ -5,12 +5,6 @@ function App() {
   return (
     <Container>
       <Header>Music Generation App</Header>
-      {/* <StyledLink to="/record">
-        <Button>Record</Button>
-      </StyledLink>
-      <StyledLink to="/upload">
-        <Button>Upload MIDI</Button>
-      </StyledLink> */}
       <LinkContainer>
         <Link to="/record">
           <Button>Record</Button>
@@ -38,12 +32,6 @@ const Header = styled.h1`
   margin-top: 11vh;
   text-align: center;
 `;
-
-// const StyledLink = styled(Link)`
-//   align-self: center;
-//   margin-top: 26vh;
-//   text-decoration: none;
-// `;
 
 const LinkContainer = styled.div`
   display: flex;

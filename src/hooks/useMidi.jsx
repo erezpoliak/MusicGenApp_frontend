@@ -2,19 +2,19 @@ import { Midi } from "@tonejs/midi";
 import * as Tone from "tone";
 import { useRef } from "react";
 
-// const synth = new Tone.PolySynth(Tone.Synth).toDestination();
-
 export function useMidi() {
   const synthRef = useRef(null);
 
   const ensureSynth = async () => {
     if (Tone.getContext().state !== "running") await Tone.start();
+
     if (!synthRef.current)
       synthRef.current = new Tone.PolySynth(Tone.Synth).toDestination();
   };
 
   const playNote = async (midiNote) => {
     await ensureSynth();
+
     synthRef.current.triggerAttack(
       Tone.Frequency(midiNote, "midi"),
       Tone.now()
@@ -23,6 +23,7 @@ export function useMidi() {
 
   const stopNote = async (midiNote) => {
     await ensureSynth();
+
     synthRef.current.triggerRelease(
       Tone.Frequency(midiNote, "midi"),
       Tone.now()
@@ -30,7 +31,6 @@ export function useMidi() {
   };
 
   const downloadMidi = (url, filename) => {
-    // const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
@@ -65,7 +65,7 @@ export function useMidi() {
           );
         });
       });
-      //////////////
+
       synthRef.current.releaseAll(now + midi.duration);
     } catch (error) {
       console.error("Error during MIDI playback:", error);

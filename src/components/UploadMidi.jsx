@@ -10,8 +10,8 @@ function UploadMidi() {
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null);
   const { setGeneratedUrl, setIsGenerating, isGenerating } = useMusicContext();
-  const navigate = useNavigate();
   const { playMidi } = useMidi();
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -61,7 +61,7 @@ function UploadMidi() {
       </ButtonContainer>
       <ButtonContainer>
         <Button onClick={handlePlay} disabled={selectedFile === null}>
-          {/* Play */}►
+          ►
         </Button>
         {isGenerating ? (
           <SpinnerContainer>
@@ -103,12 +103,9 @@ const Button = styled.button`
 `;
 
 const Spinner = styled.div`
-  /* width: 16px; */
-  /* height: 16px; */
   width: 2.3vw;
   height: 2.3vw;
   border-radius: 50%;
-  /* margin-right: 8px; */
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: rgba(255, 255, 255, 0.9);
   animation: spin 0.8s linear infinite;

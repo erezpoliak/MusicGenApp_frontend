@@ -27,7 +27,7 @@ function Generated() {
     <Container>
       <h1>Music Generated Successfully!</h1>
       <ButtonContainer>
-        <Button onClick={handlePlay}>{/* Play */}►</Button>
+        <Button onClick={handlePlay}>►</Button>
         <Button onClick={handleDownload}>Download</Button>
       </ButtonContainer>
       <ButtonContainer>
