@@ -53,18 +53,26 @@ function UploadMidi() {
         ref={fileInputRef}
         onChange={handleFileChange}
       />
-      <Button onClick={() => navigate("/")}>Back</Button>
-      <Button onClick={() => fileInputRef.current.click()}>Upload MIDI</Button>
-      <Button onClick={handlePlay} disabled={selectedFile === null}>
-        Play
-      </Button>
-      {isGenerating ? (
-        <Spinner />
-      ) : (
-        <Button disabled={selectedFile === null} onClick={handleGenerate}>
-          Generate
+      <ButtonContainer>
+        <Button onClick={() => navigate("/")}>Back</Button>
+        <Button onClick={() => fileInputRef.current.click()}>
+          Upload MIDI
         </Button>
-      )}
+      </ButtonContainer>
+      <ButtonContainer>
+        <Button onClick={handlePlay} disabled={selectedFile === null}>
+          {/* Play */}►
+        </Button>
+        {isGenerating ? (
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
+        ) : (
+          <Button disabled={selectedFile === null} onClick={handleGenerate}>
+            Generate
+          </Button>
+        )}
+      </ButtonContainer>
     </Container>
   );
 }
@@ -76,9 +84,10 @@ const Container = styled.div`
   height: 100vh;
   background: linear-gradient(135deg, #5a5a5a 0%, #6a6a6a 50%, #5a5a5a 100%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4vw;
+  gap: 15vh;
 `;
 
 const Button = styled.button`
@@ -94,10 +103,12 @@ const Button = styled.button`
 `;
 
 const Spinner = styled.div`
-  width: 16px;
-  height: 16px;
+  /* width: 16px; */
+  /* height: 16px; */
+  width: 2.3vw;
+  height: 2.3vw;
   border-radius: 50%;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: rgba(255, 255, 255, 0.9);
   animation: spin 0.8s linear infinite;
@@ -107,4 +118,17 @@ const Spinner = styled.div`
       transform: rotate(360deg);
     }
   }
+`;
+
+const SpinnerContainer = styled.div`
+  width: 12vw;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 9.5vw;
 `;

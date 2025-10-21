@@ -314,20 +314,21 @@ function Record() {
       </ButtonContainer> */}
       <ButtonContainer>
         {finsihedRecording ? (
-          <Button onClick={handlePlay}>Play</Button>
+          <Button onClick={handlePlay}>{/* Play */}►</Button>
         ) : (
           <Button
             disabled={finsihedRecording}
             onClick={() => setRecording(true)}
           >
-            Start Recording (icon)
+            {/* Start Recording (icon) */}
+            🔴
           </Button>
         )}
         {finsihedRecording ? (
           <Button onClick={handleDownload}>Download</Button>
         ) : (
           <Button disabled={!recording} onClick={handleFinishRecording}>
-            Finish Recording (icon)
+            {/* Finish Recording (icon) */}🟥
           </Button>
         )}
       </ButtonContainer>
@@ -337,7 +338,9 @@ function Record() {
           <Button onClick={handleGenerate}>Generate</Button>
         ) : null} */}
         {isGenerating ? (
-          <Spinner />
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
         ) : (
           <Button onClick={handleGenerate} disabled={!finsihedRecording}>
             Generate
@@ -371,6 +374,13 @@ const Button = styled.button`
   margin-bottom: 14vh;
   width: 15vw;
   height: 8vh;
+  background-color: #ffffff94;
+  color: #000000ae;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const ButtonContainer = styled.div`
@@ -379,10 +389,12 @@ const ButtonContainer = styled.div`
 `;
 
 const Spinner = styled.div`
-  width: 16px;
-  height: 16px;
+  /* width: 16px; */
+  /* height: 16px; */
+  width: 2.3vw;
+  height: 2.3vw;
   border-radius: 50%;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: rgba(255, 255, 255, 0.9);
   animation: spin 0.8s linear infinite;
@@ -392,4 +404,14 @@ const Spinner = styled.div`
       transform: rotate(360deg);
     }
   }
+`;
+
+const SpinnerContainer = styled.div`
+  border-radius: 12px;
+  margin-bottom: 14vh;
+  width: 15vw;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

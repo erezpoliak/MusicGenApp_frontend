@@ -27,7 +27,7 @@ function Generated() {
     <Container>
       <h1>Music Generated Successfully!</h1>
       <ButtonContainer>
-        <Button onClick={handlePlay}>Play</Button>
+        <Button onClick={handlePlay}>{/* Play */}►</Button>
         <Button onClick={handleDownload}>Download</Button>
       </ButtonContainer>
       <ButtonContainer>
@@ -55,6 +55,13 @@ const Button = styled.button`
   margin-bottom: 14vh;
   width: 15vw;
   height: 8vh;
+  background-color: #ffffff94;
+  color: #000000ae;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const ButtonContainer = styled.div`

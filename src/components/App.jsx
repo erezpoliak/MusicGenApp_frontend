@@ -5,12 +5,20 @@ function App() {
   return (
     <Container>
       <Header>Music Generation App</Header>
-      <StyledLink to="/record">
+      {/* <StyledLink to="/record">
         <Button>Record</Button>
       </StyledLink>
       <StyledLink to="/upload">
         <Button>Upload MIDI</Button>
-      </StyledLink>
+      </StyledLink> */}
+      <LinkContainer>
+        <Link to="/record">
+          <Button>Record</Button>
+        </Link>
+        <Link to="/upload">
+          <Button>Upload MIDI</Button>
+        </Link>
+      </LinkContainer>
     </Container>
   );
 }
@@ -31,10 +39,18 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const StyledLink = styled(Link)`
-  align-self: center;
+// const StyledLink = styled(Link)`
+//   align-self: center;
+//   margin-top: 26vh;
+//   text-decoration: none;
+// `;
+
+const LinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 26vh;
-  text-decoration: none;
+  gap: 9vw;
 `;
 
 const Button = styled.button`
