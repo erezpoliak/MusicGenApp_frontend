@@ -3,15 +3,14 @@ import { useRef, useState } from "react";
 import { useMusicContext } from "../contex/hooks";
 import { useNavigate } from "react-router-dom";
 import { useMidi } from "../hooks/useMidi";
-import { API_BASE } from "../config";
 
 const FILENAME = "uploaded.mid";
 
 function UploadMidi() {
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null);
-  const { setGeneratedUrl, setIsGenerating, isGenerating } = useMusicContext();
-  const { playMidi } = useMidi();
+  const { isGenerating, setIsGenerating, setGeneratedUrl } = useMusicContext();
+  const { playMidi, generate } = useMidi();
   const navigate = useNavigate();
 
   const handleFileChange = (e) => {
@@ -19,24 +18,11 @@ function UploadMidi() {
   };
 
   const handleGenerate = async () => {
-    try {
-      setIsGenerating(true);
-      const formData = new FormData();
-      formData.append("midi", selectedFile, FILENAME);
-
-      const response = await fetch(`${API_BASE}/generate`, {
-        method: "POST",
-        body: formData,
-      });
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setGeneratedUrl(url);
-      setIsGenerating(false);
-      navigate("/generated");
-    } catch (err) {
-      console.error("Error during generation:", err);
-    }
+    setIsGenerating(true);
+    const url = await generate(selectedFile, FILENAME);
+    setGeneratedUrl(url);
+    setIsGenerating(false);
+    navigate("/generated");
   };
 
   const handlePlay = async () => {

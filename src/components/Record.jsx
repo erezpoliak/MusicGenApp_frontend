@@ -7,7 +7,6 @@ import * as Tone from "tone";
 import { useMidi } from "../hooks/useMidi";
 import { useMusicContext } from "../contex/hooks";
 import { useNavigate } from "react-router-dom";
-import { API_BASE } from "../config";
 
 const firstNote = MidiNumbers.fromNote("a0");
 const lastNote = MidiNumbers.fromNote("c8");
@@ -22,10 +21,10 @@ const keyboardShortcuts = KeyboardShortcuts.create({
 function Record() {
   const [notes, setNotes] = useState([]);
   const [recordedUrl, setRecordedUrl] = useState(null);
-  const { downloadMidi, playMidi, playNote, stopNote } = useMidi();
+  const { downloadMidi, playMidi, playNote, stopNote, generate } = useMidi();
   const [finsihedRecording, setFinishedRecording] = useState(false);
   const [recording, setRecording] = useState(false);
-  const { setGeneratedUrl, isGenerating, setIsGenerating } = useMusicContext();
+  const { isGenerating, setIsGenerating, setGeneratedUrl } = useMusicContext();
   const navigate = useNavigate();
 
   const onPlayNoteInput = (midiNote) => {
@@ -105,23 +104,11 @@ function Record() {
 
   const handleGenerate = async () => {
     const recBlob = exportToMidi();
-    const formData = new FormData();
-    formData.append("midi", recBlob, FILENAME);
-
-    try {
-      setIsGenerating(true);
-      const response = await fetch(`${API_BASE}/generate`, {
-        method: "POST",
-        body: formData,
-      });
-      const genBlob = await response.blob();
-      const url = URL.createObjectURL(genBlob);
-      setGeneratedUrl(url);
-      setIsGenerating(false);
-      navigate("/generated");
-    } catch (err) {
-      console.error("Error generating music:", err);
-    }
+    setIsGenerating(true);
+    const url = await generate(recBlob, FILENAME);
+    setGeneratedUrl(url);
+    setIsGenerating(false);
+    navigate("/generated");
   };
 
   return (

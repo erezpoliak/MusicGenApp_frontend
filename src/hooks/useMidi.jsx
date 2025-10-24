@@ -1,6 +1,7 @@
 import { Midi } from "@tonejs/midi";
 import * as Tone from "tone";
 import { useRef } from "react";
+import { API_BASE } from "../config";
 
 export function useMidi() {
   const synthRef = useRef(null);
@@ -72,5 +73,32 @@ export function useMidi() {
     }
   };
 
-  return { downloadMidi, playMidi, playNote, stopNote };
+  const generate = async (file, filename) => {
+    const formData = new FormData();
+    formData.append("midi", file, filename);
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    try {
+      const startRes = await fetch(`${API_BASE}/generate`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const { task_id } = await startRes.json();
+
+      while (true) {
+        await sleep(5000); // check every five seconds
+        const generatedRes = await fetch(`${API_BASE}/result/${task_id}`);
+
+        if (generatedRes.status === 202) continue; // still processing
+        const genBlob = await generatedRes.blob();
+        const url = URL.createObjectURL(genBlob);
+        return url;
+      }
+    } catch (err) {
+      console.error("Error during generation:", err);
+    }
+  };
+
+  return { downloadMidi, playMidi, playNote, stopNote, generate };
 }
