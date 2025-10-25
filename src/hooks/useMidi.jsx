@@ -76,25 +76,16 @@ export function useMidi() {
   const generate = async (file, filename) => {
     const formData = new FormData();
     formData.append("midi", file, filename);
-    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
     try {
-      const startRes = await fetch(`${API_BASE}/generate`, {
+      const response = await fetch(`${API_BASE}/generate`, {
         method: "POST",
         body: formData,
       });
 
-      const { task_id } = await startRes.json();
-
-      while (true) {
-        await sleep(5000); // check every five seconds
-        const generatedRes = await fetch(`${API_BASE}/result/${task_id}`);
-
-        if (generatedRes.status === 202) continue; // still processing
-        const genBlob = await generatedRes.blob();
-        const url = URL.createObjectURL(genBlob);
-        return url;
-      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      return url;
     } catch (err) {
       console.error("Error during generation:", err);
     }
